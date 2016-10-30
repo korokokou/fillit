@@ -57,7 +57,7 @@ typedef struct			s_tetrimino
 	short				height;
 	short				gap_x;
 	uint16_t			value;
-	unsigned __int128	new_value;
+	uint64_t			new_value;
 	t_pos				offset;
 }						t_tetrimino;
 
@@ -66,8 +66,8 @@ struct					s_map
 	t_tetrimino			t[MAX_TETRIMINOS];
 	int 				size;
 	int					t_count;
-	unsigned __int128	grid;
-	unsigned __int128	grid_plus;
+	uint64_t			grid;
+	uint64_t			grid_plus;
 	int					total_space;
 	int					space_required;
 	t_pos				dyn_pos[19];
@@ -111,7 +111,7 @@ void					print_result_map(t_map *map);
 void 					print_tetriminos(int toto);
 void					print_tetriminos_long(unsigned long toto);
 void					print_dyn_map(t_map *map, unsigned int line_size);
-void					print_dyn_piece(unsigned __int128 value, unsigned int line_size);
+void					print_dyn_piece(uint64_t value, unsigned int line_size);
 
 /*
  **				utils.c
@@ -123,7 +123,7 @@ int						ft_ceil_sqrt(int n);
  */
 void					fillit_error_msg_exit(char *message);
 
-unsigned __int128		new_form(unsigned __int128  tetriminos, int newline_size);
-unsigned __int128		move_to_most_top_left64_position(unsigned __int128 value);
+uint64_t				new_form(uint64_t  tetriminos, int newline_size);
+uint64_t				move_to_most_top_left64_position(uint64_t value);
 
 #endif

@@ -2,7 +2,7 @@
 
 static inline t_bool		set(t_map *map, t_tetrimino *t)
 {
-	unsigned __int128		value;
+	uint64_t				value;
 
 	t->new_offset = t->offset.y + t->offset.x;
 	value = (t->new_value >> t->new_offset);
@@ -14,12 +14,26 @@ static inline t_bool		set(t_map *map, t_tetrimino *t)
 
 static inline void			unset(t_map *map, t_tetrimino *t)
 {
-	unsigned __int128		value;
+	uint64_t				value;
 
 	value = (t->new_value >> t->new_offset);
 	map->grid ^= value;
 }
+/*
+static inline t_bool		set_in_the_midle(t_map *t, t_tetrimino *t)
+{
+	uint64_t				value;
+	uint64_t				value2;
 
+	t->new_offset = t->offset.y + t->offset.x;
+	value = (t->new_value >> t->new_offset);
+	value2 = (t->new_value << -(t->new_offset - 64);
+	if (value & map->grid)
+		return (FALSE);
+	map->grid |= value;
+	return (TRUE);
+}
+*/
 t_bool						resolve(t_map *map, int tetri_index, int const size)
 {
 	t_tetrimino				*t;

@@ -13,7 +13,7 @@ void		clear(t_map *map)
 	map->grid = 0;
 	map->grid_plus = 0;
 	ft_bzero(map->dyn_pos, sizeof(map->dyn_pos));
-	map->resolve = (map->size < 12) ? resolve : resolve_plus;
+	map->resolve = (map->size < 9) ? resolve : resolve_plus;
 	while (i < map->t_count)
 	{
 		map->t[i].offset.x = 0;
@@ -21,7 +21,7 @@ void		clear(t_map *map)
 		map->t[i].new_value = move_to_most_top_left64_position(map->t[i].value);
 		map->t[i].new_value = new_form(map->t[i].new_value, map->size);
 		map->t[i].max_offset = map->total_space - (map->t[i].height * map->size);
-		map->t[i].max_grid = 128 - (map->t[i].height * map->size);
+		map->t[i].max_grid = 64 - (map->t[i].height * map->size);
 		map->t[i].limit_line = map->size - map->t[i].width;
 		i++;
 	}

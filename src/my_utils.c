@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <stdint.h>
 
-void			print_dyn_piece(unsigned __int128 value, unsigned int line_size)
+void			print_dyn_piece(uint64_t value, unsigned int line_size)
 {
-	unsigned __int128 	mask;
-	int					end_map;
+	uint64_t 	mask;
+	int			end_map;
 
 	mask = 0x1;
-	mask <<= 127;
+	mask <<= 63;
 	end_map = line_size * line_size;
 	while (end_map && mask)
 	{
@@ -18,7 +18,7 @@ void			print_dyn_piece(unsigned __int128 value, unsigned int line_size)
 			ft_putchar('\n');
 		end_map--;
 	}
-	mask <<= 127;
+	mask <<= 63;
 	while (end_map)
 	{
 		ft_putchar('.');
@@ -29,19 +29,19 @@ void			print_dyn_piece(unsigned __int128 value, unsigned int line_size)
 	ft_putchar('\n');
 }
 
-unsigned __int128		move_to_most_top_left64_position(unsigned __int128 value)
+uint64_t			move_to_most_top_left64_position(uint64_t value)
 {
-	value <<= 112;
+	value <<= 48;
 	return (value);
 }
 
 void			print_dyn_map(t_map *map, unsigned int line_size)
 {
-	unsigned __int128 	mask;
-	int					end_map;
+	uint64_t	 mask;
+	int			end_map;
 
 	mask = 0x1;
-	mask <<= 127;
+	mask <<= 63;
 	end_map = line_size * line_size;
 	while (end_map && mask)
 	{
@@ -51,30 +51,38 @@ void			print_dyn_map(t_map *map, unsigned int line_size)
 			ft_putchar('\n');
 		end_map--;
 	}
+	mask = 0x1;
+	mask <<= 63;
+	while (end_map && mask)
+	{
+		ft_putchar(((map->grid_plus & mask) ? '#': '.'));
+		mask >>= 1;
+		if ((end_map - 1) % (line_size) == 0)
+			ft_putchar('\n');
+		end_map--;
+	}
 	ft_putchar('\n');
 }
 
 
-unsigned __int128		new_form(unsigned __int128 tetriminos, int newline_size)
+uint64_t		new_form(uint64_t tetriminos, int newline_size)
 {
-	unsigned __int128	mask;
-	unsigned __int128	result;
-	int					count;
-	int					diff;
+	uint64_t	mask;
+	uint64_t	result;
+	int			count;
+	int			diff;
 
 	mask = 0xF;
-	mask <<= 124;
+	mask <<= 60;
 	result = 0;
 	count = 0;
 	diff = newline_size - 4;
 	while (count < 4)
 	{
 		if (diff > 0)
-			result |= ((mask & tetriminos)
-					>> diff * count);
+			result |= ((mask & tetriminos) >> diff * count);
 		else if (diff < 0)
-			result |= ((mask & tetriminos)
-					<< (-diff) * count);
+			result |= ((mask & tetriminos) << (-diff) * count);
 		else
 			result |= (mask & tetriminos);
 		mask >>= 4;
@@ -83,10 +91,10 @@ unsigned __int128		new_form(unsigned __int128 tetriminos, int newline_size)
 	return (result);
 }
 
-void print_tetriminos(int toto)
+void		print_tetriminos(int toto)
 {
-	int i = 0;
-	int mask = 1 << 15;
+	int 	i = 0;
+	int 	mask = 1 << 15;
 
 	while (mask)
 	{

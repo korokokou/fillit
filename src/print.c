@@ -53,6 +53,7 @@ static void		write_t(char *r_map, int map_size,
 			{
 				t->offset.x = t->new_offset % map_size;
 				t->offset.y = t->new_offset / map_size;
+		//		printf("%d %d\n", x, y);
 				index = (t->offset.y + i) * (map_size + 1) + (t->offset.x + j);
 				r_map[index] = 'A' + t_index;
 			}
@@ -84,9 +85,10 @@ void			print_result_map(t_map *map)
 	tetri_index = 0;
 	while (tetri_index < map->t_count)
 	{
+		if (!(map->t[tetri_index].new_offset == 0 && tetri_index > 0))
 		write_t(r_map, map->size, &map->t[tetri_index], tetri_index);
 		tetri_index++;
 	}
 	ft_putstr(r_map);
-	ft_strdel(&r_map);
+	//	ft_strdel(&r_map);
 }
