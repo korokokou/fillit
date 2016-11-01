@@ -52,10 +52,7 @@ typedef struct			s_tetrimino
 	short				new_offset;
 	short				max_offset;
 	short				limit_line;
-	short				max_grid;
-//	short				width;
-//	short				height;
-	short				grid;
+	short				max_grid[2];
 	short				gap_x;
 	uint16_t			value;
 	uint64_t			new_value;

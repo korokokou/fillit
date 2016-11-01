@@ -31,8 +31,6 @@ void		clear(t_map *map)
 	ft_bzero(map->dyn_pos, sizeof(map->dyn_pos));
 	ft_bzero(map->grid, sizeof(int) * 3);
 	map->resolve = (map->size < 9) ? resolve : resolve_plus;
-//	map->mask = generate_dz_mask(map->size);
-//	print_dyn_piece(map->mask, map->size);
 	while (i < map->t_count)
 	{
 		index = map->t[i].pattern_index;
@@ -41,9 +39,9 @@ void		clear(t_map *map)
 		map->t[i].new_value = move_to_most_top_left64_position(map->t[i].value);
 		map->t[i].new_value = new_form(map->t[i].new_value, map->size);
 		map->t[i].max_offset = map->total_space - ( g_patterns[index].height * map->size);
-		map->t[i].max_grid = 64 - (g_patterns[index].height * map->size);
+		map->t[i].max_grid[0] = 64 - (g_patterns[index].height * map->size);
+		map->t[i].max_grid[1] = 128 - (g_patterns[index].height * map->size);
 		map->t[i].limit_line = map->size - g_patterns[index].width;
-	//	printf("%d\n", g_patterns[index].height);
 		i++;
 	}
 }

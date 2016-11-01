@@ -3,20 +3,24 @@
 static inline t_bool		set(t_map *map, t_tetrimino *t)
 {
 	uint64_t				value;
+	int						new_offset;
 
-	t->new_offset = t->offset.y + t->offset.x;
-	value = (t->new_value >> t->new_offset);
+	new_offset = t->offset.y + t->offset.x;
+	value = (t->new_value >> new_offset);
 	if (value & map->grid[0])
 		return (FALSE);
 	map->grid[0] |= value;
+	t->new_offset = new_offset;	
 	return (TRUE);
 }
 
 static inline void			unset(t_map *map, t_tetrimino *t)
 {
 	uint64_t				value;
+	int						new_offset;
 
-	value = (t->new_value >> t->new_offset);
+	new_offset = t->offset.y + t->offset.x;
+	value = (t->new_value >> new_offset);
 	map->grid[0] ^= value;
 }
 
