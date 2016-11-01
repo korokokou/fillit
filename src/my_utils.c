@@ -45,7 +45,7 @@ void			print_dyn_map(t_map *map, unsigned int line_size)
 	end_map = line_size * line_size;
 	while (end_map && mask)
 	{
-		ft_putchar(((map->grid & mask) ? '#': '.'));
+		ft_putchar(((map->grid[0] & mask) ? '#': '.'));
 		mask >>= 1;
 		if ((end_map - 1) % (line_size) == 0)
 			ft_putchar('\n');
@@ -55,7 +55,7 @@ void			print_dyn_map(t_map *map, unsigned int line_size)
 	mask <<= 63;
 	while (end_map && mask)
 	{
-		ft_putchar(((map->grid_plus & mask) ? '#': '.'));
+		ft_putchar(((map->grid[1] & mask) ? '#': '.'));
 		mask >>= 1;
 		if ((end_map - 1) % (line_size) == 0)
 			ft_putchar('\n');

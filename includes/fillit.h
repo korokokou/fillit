@@ -52,13 +52,10 @@ typedef struct			s_tetrimino
 	short				new_offset;
 	short				max_offset;
 	short				limit_line;
-	short				max_grid;
-	short				width;
-	short				height;
+	short				max_grid[2];
 	short				gap_x;
 	uint16_t			value;
 	uint64_t			new_value;
-//	int					grid;
 	t_pos				offset;
 }						t_tetrimino;
 
@@ -67,8 +64,9 @@ struct					s_map
 	t_tetrimino			t[MAX_TETRIMINOS];
 	int 				size;
 	int					t_count;
-	uint64_t			grid;
-	uint64_t			grid_plus;
+	uint64_t			grid[3];
+	uint64_t			grids;
+	uint64_t			grids_plus;
 	uint64_t 			mask;
 	int					total_space;
 	int					space_required;
@@ -128,4 +126,5 @@ void					fillit_error_msg_exit(char *message);
 uint64_t				new_form(uint64_t  tetriminos, int newline_size);
 uint64_t				move_to_most_top_left64_position(uint64_t value);
 
+void					clear(t_map *map);
 #endif
