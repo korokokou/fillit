@@ -10,7 +10,7 @@ static inline t_bool		set(t_map *map, t_tetrimino *t)
 	if (value & map->grid[0])
 		return (FALSE);
 	map->grid[0] |= value;
-	t->new_offset = new_offset;	
+	t->new_offset[0] = new_offset;	
 	return (TRUE);
 }
 

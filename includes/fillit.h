@@ -49,7 +49,7 @@ typedef struct			s_pos
 typedef struct			s_tetrimino
 {
 	short				pattern_index;
-	short				new_offset;
+	short				new_offset[2];
 	short				max_offset;
 	short				limit_line;
 	short				max_grid[2];
