@@ -6,9 +6,9 @@ static inline t_bool		set(t_map *map, t_tetrimino *t)
 
 	t->new_offset = t->offset.y + t->offset.x;
 	value = (t->new_value >> t->new_offset);
-	if (value & map->grid)
+	if (value & map->grid[0])
 		return (FALSE);
-	map->grid |= value;
+	map->grid[0] |= value;
 	return (TRUE);
 }
 
@@ -17,7 +17,7 @@ static inline void			unset(t_map *map, t_tetrimino *t)
 	uint64_t				value;
 
 	value = (t->new_value >> t->new_offset);
-	map->grid ^= value;
+	map->grid[0] ^= value;
 }
 
 int							check_dead_zones(t_map *map)
@@ -25,11 +25,11 @@ int							check_dead_zones(t_map *map)
 	int						temp;
 	int						temp2;
 
-	print_dyn_piece(map->grid, map->size);
+	print_dyn_piece(map->grid[0], map->size);
 	print_dyn_piece(map->mask, map->size);
-	temp = ~(map->grid & map->mask);
+	temp = ~(map->grid[0] & map->mask);
 	print_dyn_piece(temp, map->size);
-	temp2 = ~map->grid;
+	temp2 = ~map->grid[0];
 	print_dyn_piece(temp2, map->size);
 	temp2 = temp2 & temp;
 	print_dyn_piece(temp2, map->size);

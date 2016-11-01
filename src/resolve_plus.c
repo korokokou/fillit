@@ -4,25 +4,29 @@ static inline t_bool		set_plus(t_map *map, t_tetrimino *t)
 {
 	uint64_t				value;
 	uint64_t				value2;
-	int						grid_plus_offset;
+	int						grids_plus_offset;
 
 	t->new_offset = t->offset.y + t->offset.x;
+	t->grid = t->new_offset >> 6;
 	value = t->new_value;
 	value >>= t->new_offset;
-	if (t->new_offset < 64 && value & map->grid)
+	if (value & map->grid[t->grid])
 		return (FALSE);
 	else if (t->new_offset > t->max_grid)
 	{
-		grid_plus_offset = t->new_offset - 63;
-		if (grid_plus_offset > 0)
-			value2 = (t->new_value >> grid_plus_offset);
+		grids_plus_offset = t->new_offset - 63;
+		if (grids_plus_offset > 0)
+			value2 = (t->new_value >> grids_plus_offset);
 		else
-			value2 = (t->new_value << -grid_plus_offset);
-		if (value2 & map->grid_plus)
-			return (FALSE);
-		map->grid_plus |= value2;
+		{
+			value2 = (t->new_value << -grids_plus_offset);
+			if (value2 & map->grid[t->grid + 1])
+				return (FALSE);
+			map->grid[t->grid + 1] |= value2;
+		}
+//		printf("%d\n", t->grid);
 	}
-	map->grid |= value;
+	map->grid[t->grid] |= value;
 	return (TRUE);
 }
 
@@ -30,19 +34,19 @@ static inline void			unset_plus(t_map *map, t_tetrimino *t)
 {
 	uint64_t				value;
 	uint64_t				value2;
-	int						grid_plus_offset;
+	int						grids_plus_offset;
 
 	value = (t->new_value >> t->new_offset);
 	if (t->new_offset < 64)
-		map->grid ^= value;
+		map->grid[0] ^= value;
 	if (t->new_offset > t->max_grid)
 	{
-		grid_plus_offset = t->new_offset - 63;
-		if (grid_plus_offset > 0)
-			value2 = (t->new_value >> grid_plus_offset);
+		grids_plus_offset = t->new_offset - 63;
+		if (grids_plus_offset > 0)
+			value2 = (t->new_value >> grids_plus_offset);
 		else
-			value2 = (t->new_value << -grid_plus_offset);
-		map->grid_plus ^= value2;
+			value2 = (t->new_value << -grids_plus_offset);
+		map->grid[1] ^= value2;
 	}
 }
 
@@ -61,6 +65,7 @@ t_bool		resolve_plus(t_map *map, int tetri_index, int const size)
 		{
 			if (set_plus(map, t))
 			{
+				print_dyn_map(map, map->size);
 				map->dyn_pos[t->pattern_index] = t->offset;
 				if (((tetri_index + 1 >= map->t_count)
 					|| resolve_plus(map, tetri_index + 1, size)))
