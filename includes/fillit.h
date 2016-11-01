@@ -58,6 +58,7 @@ typedef struct			s_tetrimino
 	short				gap_x;
 	uint16_t			value;
 	uint64_t			new_value;
+//	int					grid;
 	t_pos				offset;
 }						t_tetrimino;
 
@@ -68,6 +69,7 @@ struct					s_map
 	int					t_count;
 	uint64_t			grid;
 	uint64_t			grid_plus;
+	uint64_t 			mask;
 	int					total_space;
 	int					space_required;
 	t_pos				dyn_pos[19];

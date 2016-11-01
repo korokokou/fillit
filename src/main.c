@@ -4,6 +4,35 @@
 #include "libft.h"
 #include "fillit.h"
 
+uint64_t	generate_dz_mask(int size)
+{
+	uint64_t	ret;
+	uint64_t	mask;
+	int			line;
+
+	mask = 1;
+	mask <<= 63;
+	ret = 0;
+	line = size;
+	int temp = size;
+	while (line > 0)
+	{
+		while (size)
+		{
+			if (size % 2 == 0)
+				ret |= mask;
+			mask >>= 1;
+			size--;
+		}
+		if (line % 2 == 0)
+			mask >>= 1;
+		else
+			mask <<= 1;
+		size = temp;
+		line--;
+	}
+	return ret;
+}
 
 void		clear(t_map *map)
 {
@@ -14,6 +43,8 @@ void		clear(t_map *map)
 	map->grid_plus = 0;
 	ft_bzero(map->dyn_pos, sizeof(map->dyn_pos));
 	map->resolve = (map->size < 9) ? resolve : resolve_plus;
+	map->mask = generate_dz_mask(map->size);
+//	print_dyn_piece(map->mask, map->size);
 	while (i < map->t_count)
 	{
 		map->t[i].offset.x = 0;

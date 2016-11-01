@@ -9,9 +9,9 @@ static inline t_bool		set_plus(t_map *map, t_tetrimino *t)
 	t->new_offset = t->offset.y + t->offset.x;
 	value = t->new_value;
 	value >>= t->new_offset;
-	if (value & map->grid && t->new_offset < 64)
+	if (t->new_offset < 64 && value & map->grid)
 		return (FALSE);
-	if (t->new_offset > t->max_grid)
+	else if (t->new_offset > t->max_grid)
 	{
 		grid_plus_offset = t->new_offset - 63;
 		if (grid_plus_offset > 0)
@@ -26,9 +26,9 @@ static inline t_bool		set_plus(t_map *map, t_tetrimino *t)
 	return (TRUE);
 }
 
-static inline void		unset_plus(t_map *map, t_tetrimino *t)
+static inline void			unset_plus(t_map *map, t_tetrimino *t)
 {
-	uint64_t					value;
+	uint64_t				value;
 	uint64_t				value2;
 	int						grid_plus_offset;
 

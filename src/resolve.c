@@ -19,21 +19,24 @@ static inline void			unset(t_map *map, t_tetrimino *t)
 	value = (t->new_value >> t->new_offset);
 	map->grid ^= value;
 }
-/*
-static inline t_bool		set_in_the_midle(t_map *t, t_tetrimino *t)
-{
-	uint64_t				value;
-	uint64_t				value2;
 
-	t->new_offset = t->offset.y + t->offset.x;
-	value = (t->new_value >> t->new_offset);
-	value2 = (t->new_value << -(t->new_offset - 64);
-	if (value & map->grid)
-		return (FALSE);
-	map->grid |= value;
-	return (TRUE);
+int							check_dead_zones(t_map *map)
+{
+	int						temp;
+	int						temp2;
+
+	print_dyn_piece(map->grid, map->size);
+	print_dyn_piece(map->mask, map->size);
+	temp = ~(map->grid & map->mask);
+	print_dyn_piece(temp, map->size);
+	temp2 = ~map->grid;
+	print_dyn_piece(temp2, map->size);
+	temp2 = temp2 & temp;
+	print_dyn_piece(temp2, map->size);
+	ft_putendl("*******************************");
+	return 1;
 }
-*/
+
 t_bool						resolve(t_map *map, int tetri_index, int const size)
 {
 	t_tetrimino				*t;
@@ -51,7 +54,9 @@ t_bool						resolve(t_map *map, int tetri_index, int const size)
 			{
 				map->dyn_pos[t->pattern_index] = t->offset;
 				if (((tetri_index + 1 >= map->t_count)
-					|| resolve(map, tetri_index + 1, size)))
+					|| (/*check_dead_zones(map)
+						&&*/ resolve(map, tetri_index + 1, size)
+						)))
 					return (1);
 				unset(map, t);
 			}

@@ -85,7 +85,6 @@ void			print_result_map(t_map *map)
 	tetri_index = 0;
 	while (tetri_index < map->t_count)
 	{
-		if (!(map->t[tetri_index].new_offset == 0 && tetri_index > 0))
 		write_t(r_map, map->size, &map->t[tetri_index], tetri_index);
 		tetri_index++;
 	}
