@@ -1,6 +1,6 @@
 CC				=	gcc
 NAME			=	fillit
-FLAGS			=	-Wall -Wextra -Werror
+FLAGS			=	-Wall -Wextra -Werror -g
 
 LIB_PATH		=	libft
 LIB				=	$(LIB_PATH)/libft.a
@@ -20,6 +20,7 @@ SRC_BASE		=	main.c			\
 					print.c			\
 					error.c			\
 					my_utils.c		\
+					dz.c			\
 					utils.c
 
 OBJ_DIR			=	obj

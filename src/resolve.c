@@ -24,24 +24,7 @@ static inline void			unset(t_map *map, t_tetrimino *t)
 	map->grid[0] ^= value;
 }
 
-int							check_dead_zones(t_map *map)
-{
-	int						temp;
-	int						temp2;
-
-	print_dyn_piece(map->grid[0], map->size);
-	print_dyn_piece(map->mask, map->size);
-	temp = ~(map->grid[0] & map->mask);
-	print_dyn_piece(temp, map->size);
-	temp2 = ~map->grid[0];
-	print_dyn_piece(temp2, map->size);
-	temp2 = temp2 & temp;
-	print_dyn_piece(temp2, map->size);
-	ft_putendl("*******************************");
-	return 1;
-}
-
-t_bool						resolve(t_map *map, int tetri_index, int const size)
+t_bool						resolve(t_map *map, uint8_t tetri_index, uint8_t const size)
 {
 	t_tetrimino				*t;
 	t_pos					dyn_pos_backup;
@@ -58,9 +41,8 @@ t_bool						resolve(t_map *map, int tetri_index, int const size)
 			{
 				map->dyn_pos[t->pattern_index] = t->offset;
 				if (((tetri_index + 1 >= map->t_count)
-					|| (/*check_dead_zones(map)
-						&&*/ resolve(map, tetri_index + 1, size)
-						)))
+					|| (is_enough_space(map)
+						&& resolve(map, tetri_index + 1, size))))
 					return (1);
 				unset(map, t);
 			}

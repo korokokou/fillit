@@ -42,8 +42,8 @@ typedef struct			s_pattern
 
 typedef struct			s_pos
 {
-	int					x;
-	int					y;
+	uint8_t				x;
+	uint8_t				y;
 }						t_pos;
 
 typedef struct			s_tetrimino
@@ -62,16 +62,14 @@ typedef struct			s_tetrimino
 struct					s_map
 {
 	t_tetrimino			t[MAX_TETRIMINOS];
-	int 				size;
-	int					t_count;
+	uint8_t				size;
+	uint8_t				t_count;
 	uint64_t			grid[3];
-	uint64_t			grids;
-	uint64_t			grids_plus;
-	uint64_t 			mask;
-	int					total_space;
-	int					space_required;
+	uint64_t			dz[3];
+	uint8_t					total_space;
+	uint8_t				space_required;
 	t_pos				dyn_pos[19];
-	t_bool				(*resolve)(t_map *, int, int const);
+	t_bool				(*resolve)(t_map *, uint8_t, uint8_t const);
 };
 
 /*
@@ -94,8 +92,8 @@ uint16_t				raw_to_binary_represention(char *raw);
  **				solve.c
  */
 void					solve(t_map *map);
-t_bool					resolve(t_map *map, int tetrimino, int const size);
-t_bool					resolve_plus(t_map *map, int tetrimino, int const size);
+t_bool					resolve(t_map *map, uint8_t tetrimino, uint8_t const size);
+t_bool					resolve_plus(t_map *map, uint8_t tetrimino, uint8_t const size);
 
 /*
  **				dz.c

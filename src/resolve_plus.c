@@ -51,7 +51,7 @@ static inline void			unset_plus(t_map *map, t_tetrimino *t)
 	}
 }
 
-t_bool		resolve_plus(t_map *map, int tetri_index, int const size)
+t_bool		resolve_plus(t_map *map, uint8_t tetri_index, uint8_t const size)
 {
 	t_tetrimino		*t;
 	t_pos			dyn_pos_backup;
