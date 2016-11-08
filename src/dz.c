@@ -56,10 +56,10 @@ int					count_trailing_zero(uint64_t v, int c)
 	c -= v & 0x1;
 	return (c);
 }
-
+static int count = 1;
 t_bool				is_enough_space(t_map *map)
 {
-	uint8_t			adj;
+	uint8_t			adj[3];
 	uint8_t			n_dz;
 	uint8_t			limit;
 	int8_t			offset;
@@ -74,25 +74,45 @@ t_bool				is_enough_space(t_map *map)
 	temp = map->dz[grid];
 	offset = offset & 63;
 	temp >>= 64 - offset; 
+	adj[1] = 0;
+	printf(" start %d %d %d\n", offset, adj[1], grid);
+	print_dyn_piece(map->grid[0], map->size);
 	while (grid >= 0)
 	{	
-		while (offset >= -15)
+		while (offset > 0)
 		{
 			if (temp & 1)
-			    adj = __builtin_ctzl(~temp);
+			{
+			    adj[1] = __builtin_ctzl(~temp);
+				adj[2] = adj[1];
+			}
 			else
 			{
-				adj = __builtin_ctzl(temp);
-				if (adj < 4)
-					n_dz += adj;
+				adj[0] = __builtin_ctzl(temp);
+				if (adj[0] < 4 && adj[1] > map->size)
+				{		n_dz += adj[0];
+	
+					printf("n_dz %d\n", n_dz);			
+				}
 				if (n_dz > limit)
+				{
+					printf("out\n");
 					return (FALSE);
+				 }
+				adj[2] = adj[0];
 			}
-			offset -= adj;
-			temp >>= adj;
+			printf(" inside offset: %d zeros: %d ones: %d  total %d\n", offset, adj[0], adj[1], adj[2]);
+			offset -= adj[2];
+			temp >>= adj[2];
 		}
 		offset = 64;
 		grid--;
+	}
+	count++;
+		printf(" next  \n\n");
+	if (count == 15)
+	{
+		exit(-1);
 	}
 	return (TRUE);
 }
